@@ -1,0 +1,60 @@
+{% if GIT_DESCRIBE_NUMBER > '0' %}
+{% set GIT_VERSION = GIT_DESCRIBE_TAG[1:] + '.post' + GIT_DESCRIBE_NUMBER %}
+{% else %}
+{% set GIT_VERSION = GIT_DESCRIBE_TAG[1:] %}
+{% endif %}
+# source will be downloaded prior to filling in jinja templates
+# Example assumes that this folder has setup.py in it
+source:
+  git_url: ../
+
+package:
+  name: 'microdrop.mr-box-plugin'
+  version: {{ GIT_VERSION }}
+
+build:
+  number: 0
+  script: python -m mpm.bin.build
+
+requirements:
+  build:
+    - conda-helpers >=0.4
+    - dropbot >=1.68
+    - flatland-fork
+    - trollius
+    - path_helpers >=0.5
+    - pip-helpers
+    - pyyaml
+    - wheeler.pygtkhelpers >=0.19
+    - mr-box-peripheral-board >=0.31.2
+    - openpyxl-helpers >=0.6.1
+    - pandas
+    - microdrop >=2.31
+    - microdrop-plugin-template
+    - microdrop-plugin-manager >=0.14
+    - microdrop-utility
+
+run:
+    - conda-helpers >=0.4
+    - dropbot >=1.68
+    - flatland-fork
+    - trollius
+    - path_helpers >=0.5
+    - pip-helpers
+    - pyyaml
+    - wheeler.pygtkhelpers >=0.19
+    - mr-box-peripheral-board >=0.31.2
+    - openpyxl-helpers >=0.6.1
+    - pandas
+    - microdrop >=2.31
+    - microdrop-plugin-template
+    - microdrop-plugin-manager >=0.14
+    - microdrop-utility
+
+test:
+  commands:
+    - python -m mpm.bin.import_test -a {{ PKG_NAME }}
+
+about:
+  home: http://github.com/wheeler-microfluidics/microdrop.mr-box-plugin
+  license: BSD
